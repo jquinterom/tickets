@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { TicketType } from "../(types)/Ticket";
 
 const TicketForm = () => {
+  const router = useRouter();
   const statingTicketData: TicketType = {
     title: "",
     description: "",
@@ -12,7 +13,6 @@ const TicketForm = () => {
     priority: 1,
     progress: 0,
     status: "no started",
-    active: false,
   };
 
   const [formData, setFormDate] = useState(statingTicketData);
@@ -26,23 +26,34 @@ const TicketForm = () => {
     const name = elementEvent.target.name;
     const value = elementEvent.target.value;
 
+    if (name === "priority") {
+      setFormDate((prevState) => ({
+        ...prevState,
+        [name]: parseInt(value),
+      }));
+      return;
+    }
+
     setFormDate((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // const formData = new FormData(e.currentTarget);
+    const response = await fetch("/api/Tickets", {
+      method: "POST",
+      body: JSON.stringify({ formData }),
+    });
 
-    // fetch("/api/route", {
-    //   method: "POST",
-    //   body: formData,
-    // });
+    if (!response.ok) {
+      throw new Error("Failed to create ticket");
+    }
 
-    // router.push("/TicketPage");
+    router.refresh();
+    router.push("/");
 
     console.log("formData", formData);
   };
@@ -89,38 +100,83 @@ const TicketForm = () => {
         </select>
 
         <label htmlFor="">Priority</label>
-        <div>
-          <input
-            id="priority-1"
-            name="priority"
-            type="radio"
-            onChange={handleChange}
-            required
-            value={1}
-            checked={formData.priority === 1}
-          />
-          <label htmlFor="priority-1">1</label>
+        <div className="flex gap-3">
+          <div>
+            <input
+              id="priority-1"
+              name="priority"
+              type="radio"
+              onChange={handleChange}
+              required
+              value={1}
+              checked={formData.priority === 1}
+            />
+            <label htmlFor="priority-1">1</label>
+          </div>
 
-          <input
-            id="priority-2"
-            name="priority"
-            type="radio"
-            onChange={handleChange}
-            required
-            value={2}
-            checked={formData.priority === 2}
-          />
-          <label htmlFor="priority-2">2</label>
+          <div>
+            <input
+              id="priority-2"
+              name="priority"
+              type="radio"
+              onChange={handleChange}
+              required
+              value={2}
+              checked={formData.priority === 2}
+            />
+            <label htmlFor="priority-2">2</label>
+          </div>
+
+          <div>
+            <input
+              id="priority-3"
+              name="priority"
+              type="radio"
+              onChange={handleChange}
+              required
+              value={3}
+              checked={formData.priority === 3}
+            />
+            <label htmlFor="priority-3">3</label>
+          </div>
+
+          <div>
+            <input
+              id="priority-4"
+              name="priority"
+              type="radio"
+              onChange={handleChange}
+              required
+              value={4}
+              checked={formData.priority === 4}
+            />
+            <label htmlFor="priority-4">4</label>
+          </div>
+
+          <div>
+            <input
+              id="priority-5"
+              name="priority"
+              type="radio"
+              onChange={handleChange}
+              required
+              value={5}
+              checked={formData.priority === 5}
+            />
+            <label htmlFor="priority-5">5</label>
+          </div>
         </div>
 
-        <label htmlFor="">Progress</label>
+        <label htmlFor="">Progress: {formData.progress}%</label>
         <input
-          type="number"
+          type="range"
           name="progress"
           id="progress"
-          onChange={handleChange}
           required
           value={formData.progress}
+          min={0}
+          max={100}
+          onChange={handleChange}
         />
 
         <label htmlFor="">Status</label>
@@ -132,23 +188,11 @@ const TicketForm = () => {
           value={formData.status}
         >
           <option value="no started">No Started</option>
-          <option value="in progress">In Progress</option>
+          <option value="started">Started</option>
           <option value="done">Done</option>
         </select>
 
-        <label htmlFor="">Active</label>
-        <input
-          type="checkbox"
-          name="active"
-          id="active"
-          onChange={handleChange}
-          required
-          value={formData.active ? "true" : "false"}
-        />
-
-        <button className="btn" type="submit">
-          Submit
-        </button>
+        <input className="btn" type="submit" value={"Create Ticket"} />
       </form>
     </div>
   );

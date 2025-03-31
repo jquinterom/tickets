@@ -5,5 +5,4 @@ export type TicketType = {
   priority: number;
   progress: number;
   status: string;
-  active: boolean;
 };
