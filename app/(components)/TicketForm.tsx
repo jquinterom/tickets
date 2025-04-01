@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { TicketType } from "../(types)/Ticket";
+import { TicketStatus } from "../(types)/TicketStatus";
 
 const TicketForm = () => {
   const router = useRouter();
@@ -12,7 +13,7 @@ const TicketForm = () => {
     category: "Hardware Problem",
     priority: 1,
     progress: 0,
-    status: "no started",
+    status: TicketStatus["no started"],
   };
 
   const [formData, setFormDate] = useState(statingTicketData);
@@ -187,9 +188,9 @@ const TicketForm = () => {
           required
           value={formData.status}
         >
-          <option value="no started">No Started</option>
-          <option value="started">Started</option>
-          <option value="done">Done</option>
+          <option value={TicketStatus["no started"]}>No Started</option>
+          <option value={TicketStatus.started}>Started</option>
+          <option value={TicketStatus.done}>Done</option>
         </select>
 
         <input className="btn" type="submit" value={"Create Ticket"} />
