@@ -5,16 +5,33 @@ import React, { useState } from "react";
 import { TicketType } from "../(types)/Ticket";
 import { TicketStatus } from "../(types)/TicketStatus";
 
-const TicketForm = () => {
+interface TicketFormProps {
+  ticket: TicketType;
+}
+
+const TicketForm = ({ ticket }: TicketFormProps) => {
   const router = useRouter();
+
+  const EDIT_MODE = ticket._id !== "new";
+
   const statingTicketData: TicketType = {
     title: "",
     description: "",
     category: "Hardware Problem",
     priority: 1,
     progress: 0,
-    status: TicketStatus["no started"],
+    status: "no started",
   };
+
+  if (EDIT_MODE) {
+    statingTicketData._id = ticket._id;
+    statingTicketData.title = ticket.title;
+    statingTicketData.description = ticket.description;
+    statingTicketData.category = ticket.category;
+    statingTicketData.priority = ticket.priority;
+    statingTicketData.progress = ticket.progress;
+    statingTicketData.status = ticket.status;
+  }
 
   const [formData, setFormDate] = useState(statingTicketData);
 
@@ -41,9 +58,7 @@ const TicketForm = () => {
     }));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleCreateTicket = async () => {
     const response = await fetch("/api/Tickets", {
       method: "POST",
       body: JSON.stringify({ formData }),
@@ -52,11 +67,32 @@ const TicketForm = () => {
     if (!response.ok) {
       throw new Error("Failed to create ticket");
     }
+  };
+
+  const handleUpdateTicket = async () => {
+    const response = await fetch(`/api/Tickets/${ticket._id}`, {
+      method: "PUT",
+      body: JSON.stringify({ formData }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update ticket");
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (EDIT_MODE) {
+      await handleUpdateTicket();
+    } else {
+      await handleCreateTicket();
+    }
 
     router.refresh();
     router.push("/");
-
-    console.log("formData", formData);
   };
 
   return (
@@ -66,7 +102,7 @@ const TicketForm = () => {
         method="POST"
         onSubmit={handleSubmit}
       >
-        <h3>Create Your Ticket</h3>
+        <h3>{EDIT_MODE ? "Edit" : "Create"} Your Ticket</h3>
         <label htmlFor="">Title</label>
         <input
           type="text"
@@ -193,7 +229,11 @@ const TicketForm = () => {
           <option value={TicketStatus.done}>Done</option>
         </select>
 
-        <input className="btn" type="submit" value={"Create Ticket"} />
+        <input
+          className="btn"
+          type="submit"
+          value={`${EDIT_MODE ? "Update" : "Create"} Ticket`}
+        />
       </form>
     </div>
   );
