@@ -1,15 +1,11 @@
 import Ticket from "@/app/(models)/Ticket";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-interface TicketRouteProps {
-  params: {
-    id: string;
-  };
+interface ParamsType {
+  params: Promise<{ id: string }>;
 }
 
-export async function DELETE(request: Request, { params }: TicketRouteProps) {
-  console.log("request", request);
-
+export async function DELETE(request: Request, { params }: ParamsType) {
   const { id } = await params;
 
   if (!id) {
@@ -38,7 +34,7 @@ export async function DELETE(request: Request, { params }: TicketRouteProps) {
   }
 }
 
-export async function GET(request: Request, { params }: TicketRouteProps) {
+export async function GET(request: NextRequest, { params }: ParamsType) {
   try {
     const { id } = await params;
 
@@ -49,7 +45,7 @@ export async function GET(request: Request, { params }: TicketRouteProps) {
   }
 }
 
-export async function PUT(request: Request, { params }: TicketRouteProps) {
+export async function PUT(request: NextRequest, { params }: ParamsType) {
   try {
     const { id } = await params;
     const body = await request.json();

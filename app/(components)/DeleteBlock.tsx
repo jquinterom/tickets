@@ -16,8 +16,6 @@ const DeleteBlock = ({ id }: DeleteBlockProps) => {
       method: "DELETE",
     });
 
-    console.log("response", response);
-
     if (response.ok) {
       router.refresh();
     }

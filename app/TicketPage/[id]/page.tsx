@@ -1,11 +1,6 @@
+import { PageProps } from "@/.next/types/app/page";
 import TicketForm from "@/app/(components)/TicketForm";
 import { TicketType } from "@/app/(types)/Ticket";
-
-interface TicketPageProps {
-  params: {
-    id: string;
-  };
-}
 
 const getTicketById = async (id: string) => {
   try {
@@ -22,11 +17,11 @@ const getTicketById = async (id: string) => {
 
     return data;
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
   }
 };
 
-const TicketPage = async ({ params }: TicketPageProps) => {
+const TicketPage = async ({ params }: PageProps) => {
   const { id } = await params;
 
   const EDIT_MODE = id !== "new";
