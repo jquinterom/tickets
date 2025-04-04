@@ -1,10 +1,11 @@
 import { PageProps } from "@/.next/types/app/page";
 import TicketForm from "@/app/(components)/TicketForm";
+import ENV from "@/app/(config)/env";
 import { TicketType } from "@/app/(types)/Ticket";
 
 const getTicketById = async (id: string) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/Tickets/${id}`, {
+    const response = await fetch(`${ENV.API_BASE_URL}/Tickets/${id}`, {
       method: "GET",
       cache: "no-store",
     });

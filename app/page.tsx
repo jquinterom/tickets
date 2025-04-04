@@ -1,8 +1,9 @@
 import TicketCard from "./(components)/TicketCard";
 import { TicketType } from "./(types)/Ticket";
+import ENV from "@/app/(config)/env";
 
 const getTickets = async () => {
-  const response = await fetch("http://localhost:3000/api/Tickets", {
+  const response = await fetch(`${ENV.API_BASE_URL}/Tickets`, {
     method: "GET",
     cache: "no-store",
   });
