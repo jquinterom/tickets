@@ -1,9 +1,9 @@
 "use client";
 
+import { TicketType } from "@/app/(types)/Ticket";
+import { TicketStatus } from "@/app/(types)/TicketStatus";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { TicketType } from "../(types)/Ticket";
-import { TicketStatus } from "../(types)/TicketStatus";
 
 interface TicketFormProps {
   ticket: TicketType;

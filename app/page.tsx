@@ -1,4 +1,4 @@
-import TicketCard from "./(components)/TicketCard";
+import TicketCard from "./(core)/ui/organisms/TicketCard/TicketCard";
 import { TicketType } from "./(types)/Ticket";
 import ENV from "@/app/(config)/env";
 

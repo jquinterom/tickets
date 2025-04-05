@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { TicketType } from "../(types)/Ticket";
-import { formatTimeStamp } from "../(utils)/formatTimeStamp";
-import DeleteBlock from "./DeleteBlock";
-import PriorityDisplay from "./PriorityDisplay";
-import ProgressDisplay from "./ProgressDisplay";
-import StatusDisplay from "./StatusDisplay";
+import DeleteBlock from "../../atoms/DeleteBlock/DeleteBlock";
+import PriorityDisplay from "../../molecules/PriorityDisplay/PriorityDisplay";
+import ProgressDisplay from "../../atoms/ProgressDisplay/ProgressDisplay";
+import StatusDisplay from "../../atoms/StatusDisplay/StatusDisplay";
+import { formatTimeStamp } from "@/app/(utils)/formatTimeStamp";
+import { TicketType } from "@/app/(types)/Ticket";
 
 interface TicketCardProps {
   ticket: TicketType;

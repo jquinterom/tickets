@@ -1,4 +1,4 @@
-import { TicketStatus, TicketStatusType } from "../(types)/TicketStatus";
+import { TicketStatus, TicketStatusType } from "@/app/(types)/TicketStatus";
 
 interface StatusDisplayProps {
   status: TicketStatusType;

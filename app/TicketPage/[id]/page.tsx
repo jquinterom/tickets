@@ -1,6 +1,6 @@
 import { PageProps } from "@/.next/types/app/page";
-import TicketForm from "@/app/(components)/TicketForm";
 import ENV from "@/app/(config)/env";
+import TicketForm from "@/app/(core)/ui/organisms/TicketForm/TicketForm";
 import { TicketType } from "@/app/(types)/Ticket";
 
 const getTicketById = async (id: string) => {
