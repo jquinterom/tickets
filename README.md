@@ -20,6 +20,28 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Storybook
+
+Storybook is a tool for developing UI components in isolation. It allows you to build UI components in isolation, simulate different states and scenarios, and develop in a faster and more efficient way.
+
+To run Storybook, you can use the following command:
+
+```bash
+bun run storybook
+```
+
+This will start the Storybook server on port 6006. You can access the Storybook UI by navigating to http://localhost:6006 in your web browser.
+
+## Testing
+
+To run the tests, you can use the following command:
+
+```bash
+bun run test
+```
+
+This will run the tests and generate a coverage report in the `coverage` directory.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -28,18 +50,6 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Storybook
-
-Storybook is a tool for developing UI components in isolation. It allows you to build UI components in isolation, simulate different states and scenarios, and develop in a faster and more efficient way.
-
-To run Storybook, you can use the following command:
-
-```bash
-npm run storybook
-```
-
-This will start the Storybook server on port 6006. You can access the Storybook UI by navigating to http://localhost:6006 in your web browser.
 
 ## Deploy on Vercel
 
