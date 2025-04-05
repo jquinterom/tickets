@@ -29,6 +29,18 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Storybook
+
+Storybook is a tool for developing UI components in isolation. It allows you to build UI components in isolation, simulate different states and scenarios, and develop in a faster and more efficient way.
+
+To run Storybook, you can use the following command:
+
+```bash
+npm run storybook
+```
+
+This will start the Storybook server on port 6006. You can access the Storybook UI by navigating to http://localhost:6006 in your web browser.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
