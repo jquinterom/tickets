@@ -7,7 +7,10 @@ type PriorityDisplayProps = {
 
 const PriorityDisplay = ({ priority }: PriorityDisplayProps) => {
   return (
-    <div className="flex justify-start align-baseline">
+    <div
+      className="flex justify-start align-baseline"
+      data-testid="priority-display"
+    >
       {Array.from({ length: 5 }, (_, index) => (
         <FontAwesomeIcon
           icon={faFire}

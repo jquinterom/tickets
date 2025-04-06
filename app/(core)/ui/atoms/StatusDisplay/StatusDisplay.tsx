@@ -12,8 +12,6 @@ const getColor = (status: TicketStatusType) => {
       return "bg-yellow-200";
     case TicketStatus.done:
       return "bg-green-200";
-    default:
-      return "bg-slate-200";
   }
 };
 
@@ -23,6 +21,7 @@ const StatusDisplay = ({ status }: StatusDisplayProps) => {
       className={`inline-block rounded-full px-2 py-1 text-xs font-semibold text-gray-700 ${getColor(
         status
       )}`}
+      data-testid="status-display"
     >
       {status}
     </span>

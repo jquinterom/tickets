@@ -12,7 +12,10 @@ interface TicketCardProps {
 
 const TicketCard = ({ ticket }: TicketCardProps) => {
   return (
-    <div className="flex flex-col bg-card hover:bg-card-cover rounded-md shadow-lg p-3 m-2">
+    <div
+      className="flex flex-col bg-card hover:bg-card-cover rounded-md shadow-lg p-3 m-2"
+      data-testid="ticket-card"
+    >
       <div className="flex mb-3">
         <PriorityDisplay priority={ticket.priority} />
         <div className="ml-auto">

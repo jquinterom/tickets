@@ -9,8 +9,17 @@ interface TicketFormProps {
   ticket: TicketType;
 }
 
+const validFields = (formData: TicketType) => {
+  return (
+    formData.title.trim() &&
+    formData.description.trim() &&
+    formData.category.trim()
+  );
+};
+
 const TicketForm = ({ ticket }: TicketFormProps) => {
   const router = useRouter();
+  const [error, setError] = useState("");
 
   const EDIT_MODE = ticket._id !== "new";
 
@@ -33,7 +42,7 @@ const TicketForm = ({ ticket }: TicketFormProps) => {
     statingTicketData.status = ticket.status;
   }
 
-  const [formData, setFormDate] = useState(statingTicketData);
+  const [formData, setFormData] = useState(statingTicketData);
 
   const handleChange = (
     elementEvent:
@@ -45,20 +54,24 @@ const TicketForm = ({ ticket }: TicketFormProps) => {
     const value = elementEvent.target.value;
 
     if (name === "priority") {
-      setFormDate((prevState) => ({
+      setFormData((prevState) => ({
         ...prevState,
         [name]: parseInt(value),
       }));
       return;
     }
 
-    setFormDate((prevState) => ({
+    setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   const handleCreateTicket = async () => {
+    if (!validFields(formData)) {
+      return false;
+    }
+
     const response = await fetch("/api/Tickets", {
       method: "POST",
       body: JSON.stringify({ formData }),
@@ -67,6 +80,8 @@ const TicketForm = ({ ticket }: TicketFormProps) => {
     if (!response.ok) {
       throw new Error("Failed to create ticket");
     }
+
+    return true;
   };
 
   const handleUpdateTicket = async () => {
@@ -85,25 +100,41 @@ const TicketForm = ({ ticket }: TicketFormProps) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (EDIT_MODE) {
-      await handleUpdateTicket();
-    } else {
-      await handleCreateTicket();
-    }
+    setError("");
 
-    router.refresh();
-    router.push("/");
+    try {
+      if (EDIT_MODE) {
+        await handleUpdateTicket();
+      } else {
+        const success = await handleCreateTicket();
+        if (!success) {
+          setError("Please fill all required fields.");
+          return;
+        }
+      }
+
+      router.refresh();
+      router.push("/");
+    } catch (err) {
+      setError((err as Error).message);
+    }
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center" data-testid="ticket-form">
+      {error && (
+        <p role="alert" data-testid="error">
+          {error}
+        </p>
+      )}
+
       <form
         className="flex flex-col gap-3 w-10/12 md:w-1/2"
         method="POST"
         onSubmit={handleSubmit}
       >
         <h3>{EDIT_MODE ? "Edit" : "Create"} Your Ticket</h3>
-        <label htmlFor="">Title</label>
+        <label htmlFor="title">Title</label>
         <input
           type="text"
           name="title"
@@ -113,7 +144,7 @@ const TicketForm = ({ ticket }: TicketFormProps) => {
           value={formData.title}
         />
 
-        <label htmlFor="">Description</label>
+        <label htmlFor="description">Description</label>
         <textarea
           name="description"
           id="description"
@@ -123,7 +154,7 @@ const TicketForm = ({ ticket }: TicketFormProps) => {
           rows={5}
         />
 
-        <label htmlFor="">Category</label>
+        <label htmlFor="category">Category</label>
         <select
           name="category"
           id="category"
@@ -136,7 +167,7 @@ const TicketForm = ({ ticket }: TicketFormProps) => {
           <option value="Project">Project</option>
         </select>
 
-        <label htmlFor="">Priority</label>
+        <label htmlFor="priority">Priority</label>
         <div className="flex gap-3">
           <div>
             <input
@@ -204,7 +235,7 @@ const TicketForm = ({ ticket }: TicketFormProps) => {
           </div>
         </div>
 
-        <label htmlFor="">Progress: {formData.progress}%</label>
+        <label htmlFor="progress">Progress: {formData.progress}%</label>
         <input
           type="range"
           name="progress"
@@ -216,7 +247,7 @@ const TicketForm = ({ ticket }: TicketFormProps) => {
           onChange={handleChange}
         />
 
-        <label htmlFor="">Status</label>
+        <label htmlFor="status">Status</label>
         <select
           name="status"
           id="status"
